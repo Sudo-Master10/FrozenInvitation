@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitación Cumpleaños Diana Fernanda</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts (Frozen-like) -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Estilos generales */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #001f3f;
+      /* Fondo azul oscuro */
+      overflow: hidden;
+      /* Evitar scroll */
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Contenedores de copos de nieve y partículas */
+    #snow-container,
+    #snow-particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      /* Muy por debajo del modal */
+      pointer-events: none;
+      /* No intercepta clics */
+    }
+
+    /* Modal personalizado */
+    .modal {
+      z-index: 1060;
+      /* Encima de todo */
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-dialog {
+      max-width: 90%;
+      /* Ancho adaptativo */
+      margin: 1.75rem auto;
+    }
+
+    .modal-dialog-centered {
+      display: flex;
+      align-items: center;
+      min-height: calc(100% - 1.75rem);
+    }
+
+    .modal-content {
+      border-radius: 20px;
+      background: linear-gradient(135deg, #e6f3ff, #b3e5fc);
+      /* Degradado hielo */
+      border: 2px solid #4fc3f7;
+      /* Borde azul hielo */
+      box-shadow: 0 10px 20px rgba(79, 195, 247, 0.5);
+      /* Sombra azulada */
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: glow 2s ease-in-out infinite alternate;
+      /* Efecto de brillo */
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 10px 20px rgba(79, 195, 247, 0.5);
+      }
+
+      to {
+        box-shadow: 0 15px 30px rgba(79, 195, 247, 0.8);
+      }
+    }
+
+    .modal-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      /* Más grande */
+      color: #0077b7;
+      /* Azul profundo Frozen */
+      text-shadow: 0 2px 4px rgba(0 0 0 / 92%);
+      /* Sombra elegante */
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .modal-title::before {
+      content: '❄';
+      position: absolute;
+      left: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #ffffff;
+    }
+
+    .modal-title::after {
+      content: '❄';
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #ffffff;
+    }
+
+    .modal-body {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      /* Más ligero */
+      font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+      line-height: 1.8;
+      color: #000000;
+      /* Azul oscuro suave */
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #1f7ba3;
+      /* Azul hielo Frozen */
+      border-color: #3b5b69;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      padding: 12px 30px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      /* Espacio para ícono */
+    }
+
+    .btn-primary:hover {
+      background-color: #0288d1;
+      /* Azul más oscuro */
+      border-color: #0288d1;
+      box-shadow: 0 5px 15px rgba(79, 195, 247, 0.5);
+      transform: scale(1.05);
+    }
+
+    .btn-primary::before {
+      content: '❄';
+      font-size: 1rem;
+    }
+
+    /* Contenedor de contenido principal */
+    .content-container {
+      position: relative;
+      z-index: 100;
+      /* Encima del fondo y copos */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Video centrado */
+    .video-container {
+      width: 100%;
+      max-width: 432px;
+      /* Resolución nativa del video */
+      height: auto;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-container video {
+      width: 100%;
+      max-width: 432px;
+      /* Ancho nativo máximo */
+      max-height: 736px;
+      /* Alto nativo máximo */
+      height: auto;
+      /* Mantiene proporción */
+      object-fit: contain;
+      /* Muestra resolución completa */
+      border: 5px solid #b3e5fc;
+      /* Borde azul claro */
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Contenedor de botones */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 432px;
+      /* Igual al ancho del video */
+    }
+
+    .button-container .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-weight: bold;
+      border-radius: 25px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .button-container .btn-location {
+      background-color: #1f7ba3;
+      color: #ffffffb8;
+      border: 2px solid #3b5b69;
+    }
+
+    .button-container .btn-location:hover {
+      background-color: #e6b800;
+      transform: scale(1.05);
+    }
+
+    .button-container .btn-whatsapp {
+      background-color: #25d366;
+      /* Verde WhatsApp */
+      color: white;
+      border: 2px solid #25d366;
+    }
+
+    .button-container .btn-whatsapp:hover {
+      background-color: #1da851;
+      transform: scale(1.05);
+    }
+
+    .button-container .btn i {
+      margin-right: 10px;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+    }
+
+    /* Efecto de nieve */
+    .snowflake {
+      position: absolute;
+      top: -10%;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-10%) rotate(0deg);
+      }
+
+      to {
+        transform: translateY(calc(100vh + 50px)) rotate(360deg);
+      }
+    }
+
+    /* Partículas de nieve */
+    .snow-particle {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 2px;
+      animation: snowfall 2s linear infinite;
+    }
+
+    @keyframes snowfall {
+      from {
+        top: -10%;
+      }
+
+      to {
+        top: 110%;
+      }
+    }
+
+    /* Media Queries para pantallas pequeñas */
+    @media (max-width: 450px) {
+      .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+      }
+
+      .modal-dialog-centered {
+        min-height: calc(100% - 1rem);
+      }
+
+      .modal-title {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+      }
+
+      .modal-body {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+
+      .btn-primary {
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
+        padding: 10px 20px;
+      }
+
+      .video-container {
+        max-width: 100%;
+      }
+
+      .video-container video {
+        max-width: 100%;
+        /* Escala proporcionalmente */
+        max-height: calc(100vw * 736 / 432);
+        /* Mantiene proporción */
+      }
+
+      .button-container {
+        max-width: 100%;
+      }
+
+      .button-container .btn {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contenedor para copos de nieve grandes -->
+  <div id="snow-container"></div>
+
+  <!-- Contenedor para partículas de nieve -->
+  <div id="snow-particles-container"></div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="birthdayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title w-100" id="exampleModalLabel">¡Te invitamos a una aventura mágica!</h5>
+        </div>
+        <div class="modal-body">
+          <p>¡Celebra con nosotros el cumpleaños número 3 de Diana Fernanda!</p>
+          <p>Prepárate para un día lleno de magia, diversión y sorpresas en un mundo de hielo y nieve.</p>
+        </div>
+        <div class="modal-footer border-0 justify-content-center">
+          <button type="button" class="btn btn-primary" id="acceptButton">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content-container">
+    <div class="video-container">
+      <video id="contentVideo" muted loop playsinline>
+        <source src="video.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+    <div class="button-container">
+      <a href="https://maps.google.com" target="_blank" class="btn btn-location">
+        <i class="fas fa-map-marker-alt"></i> Ubicación
+      </a>
+      <a href="https://wa.me/1234567890" target="_blank" class="btn btn-whatsapp">
+        <i class="fab fa-whatsapp"></i> Confirmar Asistencia
+      </a>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="backgroundMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mostrar la ventana modal al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ocultar el contenedor de contenido inicialmente
+      const contentContainer = document.querySelector('.content-container');
+      contentContainer.style.display = 'none';
+
+      const modal = new bootstrap.Modal(document.getElementById('birthdayModal'), {
+        backdrop: 'static', // Evita cerrar al hacer clic fuera
+        keyboard: false // Evita cerrar con la tecla Esc
+      });
+      modal.show();
+
+      // Ocultar la ventana modal y mostrar contenido al hacer clic en "Aceptar"
+      document.getElementById('acceptButton').addEventListener('click', function () {
+        modal.hide();
+        // Reproducir música y mostrar contenido
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        backgroundMusic.play();
+        contentContainer.style.display = 'flex';
+        const contentVideo = document.getElementById('contentVideo');
+        contentVideo.play();
+      });
+    });
+
+    // Generar copos de nieve grandes dinámicamente
+    const snowContainer = document.getElementById('snow-container');
+    const numberOfBigSnowflakes = 50;
+    let screenHeight = window.innerHeight;
+    let screenWidth = window.innerWidth;
+
+    function generateSnowflakes() {
+      snowContainer.innerHTML = '';
+      for (let i = 0; i < numberOfBigSnowflakes; i++) {
+        const snowflake = document.createElement('img');
+        snowflake.classList.add('snowflake');
+        snowflake.src = 'snowflake.png';
+        snowflake.alt = 'Copo de nieve';
+
+        const size = Math.random() * 50 + 20;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 10 + 10;
+        const leftPosition = Math.random() * screenWidth;
+        const rotation = Math.random() * 360;
+
+        snowflake.style.width = `${size}px`;
+        snowflake.style.left = `${leftPosition}px`;
+        snowflake.style.animationDelay = `${delay}s`;
+        snowflake.style.animationDuration = `${duration}s`;
+        snowflake.style.transform = `rotate(${rotation}deg)`;
+
+        snowContainer.appendChild(snowflake);
+      }
+    }
+
+    // Generar partículas de nieve pequeñas dinámicamente
+    const particlesContainer = document.getElementById('snow-particles-container');
+    const numberOfParticles = 200;
+
+    function generateParticles() {
+      particlesContainer.innerHTML = '';
+      for (let i = 0; i < numberOfParticles; i++) {
+        const particle = document.createElement('span');
+        particle.classList.add('snow-particle');
+        particle.innerHTML = '*';
+
+        const size = Math.random() * 2 + 1;
+        const delay = Math.random() * 2;
+        const duration = Math.random() * 2 + 2;
+        const leftPosition = Math.random() * screenWidth;
+
+        particle.style.fontSize = `${size}px`;
+        particle.style.left = `${leftPosition}px`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Generar copos de nieve y partículas inicialmente
+    generateSnowflakes();
+    generateParticles();
+
+    // Recalcular copos y partículas al cambiar el tamaño de la pantalla
+    window.addEventListener('resize', () => {
+      screenHeight = window.innerHeight;
+      screenWidth = window.innerWidth;
+      generateSnowflakes();
+      generateParticles();
+    });
+  </script>
+</body>
+
+</html>
